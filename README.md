@@ -20,3 +20,13 @@
 
 /posts -> 모든 계시글
 /posts/
+
+# Mysql
+
+-   Connection은 동시에 여러 쿼리문을 처리하지 못하지만, Pool은 동시에 여러 쿼리문을 병렬적으로 처리할 수 있다.
+
+-   .env를 사용할 땐 dotenv 모듈을 다운 받아 사용하려는 곳에 다음 코드를 실행하자
+
+```js
+dotenv.config();
+```
