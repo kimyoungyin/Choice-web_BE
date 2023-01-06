@@ -4,6 +4,10 @@
 
 -   babel-node: node 대신 쓸 수 있음
 
+-   status code: 200(성공), 201(리소스 생성 성공)
+
+## express
+
 -   라우터: 엔드포인트와 해당 엔드포인트에서 실행돼야 할 로직을 연결해주는 역할
 
 -   컨트롤러: 미들웨어의 일종이지만 메인 로직을 담당하므로 분리해서 관리
@@ -12,9 +16,15 @@
 
 -   app.use(): 모든 routes의 response 전에 동작하는 공통 미들웨어(예시: morgan, cors(CORS 에러 해결))
 
--   status code: 200(성공), 201(리소스 생성 성공)
-
 -   express.Router().route("url").get().post()...
+
+```js
+app.use(express.urlencoded({ extended: true }));
+```
+
+-   application/x-www-form-urlencoded 방식이면 -> false
+
+-   application/x-www-form-urlencoded 방식이 아닌 다른 인코딩 방식이라면 -> true
 
 ## REST API
 
