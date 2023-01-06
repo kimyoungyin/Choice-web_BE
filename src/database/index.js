@@ -1,18 +1,18 @@
 import dotenv from "dotenv";
-import mysql from "mysql2";
+// import mysql from "mysql2";
 
-dotenv.config();
+// dotenv.config();
 
-const dbconfig = {
-    host: process.env.DATABASE_HOST,
-    user: process.env.DATABASE_USER,
-    password: process.env.DATABASE_PASSWORD,
-    database: process.env.DATABASE_DATABASE,
-};
+// const dbconfig = {
+//     host: process.env.DATABASE_HOST,
+//     user: process.env.DATABASE_USER,
+//     password: process.env.DATABASE_PASSWORD,
+//     database: process.env.DATABASE_DATABASE,
+// };
 
-const pool = mysql.createPool(dbconfig); // 여러 개의 쿼리를 병렬적으로 수행
+// const pool = mysql.createPool(dbconfig); // 여러 개의 쿼리를 병렬적으로 수행
 
-export default pool.promise();
+// export default pool.promise();
 
 // // 사용하고자 하는 곳에서
 // import db from "./database";
@@ -25,3 +25,14 @@ export default pool.promise();
 //     .catch((error) => {
 //         console.log(error);
 //     });
+
+import Sequelize from "sequelize";
+
+const sequelize = new Sequelize(
+    process.env.DATABASE_DATABASE,
+    process.env.DATABASE_USER,
+    process.env.DATABASE_PASSWORD,
+    { dialect: "mysql", host: process.env.DATABASE_HOST }
+);
+
+export default sequelize;
