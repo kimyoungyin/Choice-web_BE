@@ -10,7 +10,7 @@ export default Category = sequelize.define("category", {
     //     allowNull: false,
     //     primaryKey: true,
     // },
-    category: {
+    name: {
         type: Sequelize.STRING(10),
         allowNull: false,
     },
