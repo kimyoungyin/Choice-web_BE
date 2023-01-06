@@ -10,6 +10,9 @@ const logger = morgan("dev");
 
 const app = express();
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true })); // body 접근 가능
+
 app.use(
     cors({
         origin: "http://localhost:3000",
