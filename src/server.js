@@ -31,7 +31,7 @@ const handleListening = () =>
 
 sequelize
     .sync() // sequelize에 정의된 모든 모델을 가져오고 해당 테이블이 없으면 생성함(테이블명은 복수형으로 자동 생성), id, createdAt, updatedAt
-    .then((result) => {
+    .then(() => {
         app.listen(PORT, handleListening);
     })
     .catch((error) => console.log(error));
