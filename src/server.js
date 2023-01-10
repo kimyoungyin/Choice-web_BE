@@ -6,6 +6,7 @@ import categoryRouter from "./routers/categoryRouter";
 import sequelize from "./database";
 import Category from "../models/category"; // 꼭 가져와야 sync가 정상 작동한다.
 import Post from "../models/post"; // 꼭 가져와야 sync가 정상 작동한다.
+import Choice from "../models/choice";
 
 const PORT = 4000;
 
@@ -28,15 +29,17 @@ app.use("/posts", postRouter);
 app.use("/categories", categoryRouter);
 
 // association
-Post.belongsTo(Category, { constraints: true, onDelete: "CASCADE" });
+Post.belongsTo(Category, { constraints: true, onDelete: "CASCADE" }); // 삭제될 경우 연결된 테이블 내용도 삭제
 Category.hasMany(Post);
+Choice.belongsTo(Post, { constraints: true, onDelete: "CASCADE" });
+Post.hasMany(Choice);
 
 const handleListening = () =>
     console.log(`✅ Server listenting on port http://localhost:${PORT} 🚀`);
 
 sequelize
-    .sync({ force: true })
-    // force: true는 기존 테이블 제거 후 덮어쓰기 => 이후 다시 지워야 함
+    .sync()
+    //{ force: true }는 기존 테이블 제거 후 덮어쓰기 => 이후 다시 지워야 함
     // sequelize에 정의된 모든 모델을 가져오고 해당 테이블이 없으면 생성함(테이블명은 복수형으로 자동 생성), id, createdAt, updatedAt
     .then(() => {
         app.listen(PORT, handleListening);
