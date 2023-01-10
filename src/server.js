@@ -4,9 +4,8 @@ import morgan from "morgan";
 import postRouter from "./routers/postRouter";
 import categoryRouter from "./routers/categoryRouter";
 import sequelize from "./database";
-import Category from "../models/category"; // 꼭 가져와야 sync가 정상 작동한다.
-import Post from "../models/post"; // 꼭 가져와야 sync가 정상 작동한다.
-import Choice from "../models/choice";
+import { Category, Choice, Post } from "./models";
+// 꼭 가져와야 sync가 정상 작동한다.
 
 const PORT = 4000;
 
