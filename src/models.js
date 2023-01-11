@@ -26,7 +26,7 @@ export const Post = sequelize.define("post", {
     },
     choice1Url: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
     choice2: {
         type: Sequelize.STRING(20), // 20자 제한 추가
@@ -34,7 +34,7 @@ export const Post = sequelize.define("post", {
     },
     choice2Url: {
         type: Sequelize.STRING,
-        allowNull: false,
+        allowNull: true,
     },
 });
 
