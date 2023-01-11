@@ -36,6 +36,10 @@ export const Post = sequelize.define("post", {
         type: Sequelize.STRING,
         allowNull: true,
     },
+    uid: {
+        type: Sequelize.STRING(28),
+        allowNull: false,
+    },
 });
 
 export const Choice = sequelize.define(
