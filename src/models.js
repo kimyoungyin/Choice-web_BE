@@ -36,7 +36,7 @@ export const Post = sequelize.define("post", {
         type: Sequelize.STRING,
         allowNull: true,
     },
-    uid: {
+    uploaderId: {
         type: Sequelize.STRING(28),
         allowNull: false,
     },
