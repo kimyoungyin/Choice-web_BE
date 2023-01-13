@@ -31,7 +31,7 @@ app.use(express.urlencoded({ extended: true }));
 /posts -> 모든 계시글
 /posts/
 
-# Mysql
+## Mysql
 
 -   mysql2는 mysql과 nodejs 프로젝트를 연결해주는 드라이버이다.
 
@@ -44,3 +44,9 @@ app.use(express.urlencoded({ extended: true }));
 ```js
 dotenv.config();
 ```
+
+## multer
+
+-   각각 다른 file input을 동일한 form에서 받는다면 `fields({name:string; maxCount:number;}[])` 메서드를 사용하자(하나라면 `single("name")`)
+
+-   다음 컨트롤러에서 `req.files` 혹은 `req.file`로 확인한다.
