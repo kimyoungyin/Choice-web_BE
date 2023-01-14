@@ -26,6 +26,8 @@ export const uploadPost = async (req, res) => {
         files,
     } = req;
     console.log(req.files);
+    if (req.files.length > 2)
+        return res.status(400).send("잘못된 형식의 데이터입니다."); // 이후 밑에 에러와 병합 예정
     return res.send("hello");
     // // url에 대해서는 storage 연결 후
     // try {
