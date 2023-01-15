@@ -50,3 +50,9 @@ dotenv.config();
 -   각각 다른 file input을 동일한 form에서 받는다면 `fields({name:string; maxCount:number;}[])` 메서드를 사용하자(하나라면 `single("name")`)
 
 -   다음 컨트롤러에서 `req.files` 혹은 `req.file`로 확인한다.
+
+## AWS
+
+-   S3: 스토리지 서비스
+
+-   IAM: AWS 리소스에 대한 접근 관리 => 사용자 => 기존 정책 직접 연결(ex: S3fullaccess) => ID, SECRET(이후에 확인 못함)을 .env에 기록
