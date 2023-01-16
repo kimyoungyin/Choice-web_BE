@@ -48,6 +48,20 @@ export const uploadPost = async (req, res) => {
     }
 };
 
+export const getUserPosts = (req, res) => {
+    const uid = req.params.uid;
+    if (!uid) return res.status(400).send("잘못된 형식의 데이터입니다.");
+    const posts = Post.findAll({
+        where: {
+            uploaderId: uid,
+        },
+        order: [["createdAt", "DESC"]], // 이차원 배열로 순서 구현(내림차순)
+        limit: 10, // 개수 10개로 제한
+    });
+    console.log(posts);
+    return res.json(posts);
+};
+
 export const deletePost = (req, res) => {
     return res.send("delete");
 };

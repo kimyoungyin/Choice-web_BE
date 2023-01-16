@@ -5,6 +5,7 @@ import {
     getAllPosts,
     getPost,
     getPostsAboutCategory,
+    getUserPosts,
     postChoice,
     uploadPost,
 } from "../controllers/postController";
@@ -22,6 +23,7 @@ postRouter
         ]),
         uploadPost
     );
+postRouter.get("/profile/:uid", getUserPosts);
 postRouter.get("/category/:categoryId", getPostsAboutCategory);
 postRouter.route("/:id/choice").post(postChoice).delete(cancelChoice);
 postRouter.route("/:id").get(getPost).delete(deletePost);
