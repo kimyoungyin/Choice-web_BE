@@ -14,51 +14,38 @@ export const getPost = (req, res) => {
 
 export const uploadPost = async (req, res) => {
     const {
-        body: {
-            title,
-            choice1,
-            choice1Url,
-            choice2,
-            choice2Url,
-            uploaderId,
-            categoryName,
-        },
+        body: { title, choice1, choice2, uploaderId, categoryName },
         files,
     } = req;
-    console.log(req.files);
-    if (req.files.length > 2)
-        return res.status(400).send("잘못된 형식의 데이터입니다."); // 이후 밑에 에러와 병합 예정
-    return res.send("hello");
-    // // url에 대해서는 storage 연결 후
-    // try {
-    //     if (!uploaderId) return res.status(401).send("Unauthorized");
-    //     if (!categoryName || !title || !choice1 || !choice2)
-    //         return res.status(400).send("잘못된 형식의 데이터입니다."); // 다른 데이터들 있는지 체크해야
-    //     let finalCateogoryId;
-    //     const searchedCategory = await Category.findOne({
-    //         // 검색 후 하나 발견한 순간 정지
-    //         where: { name: categoryName },
-    //     });
-    //     if (searchedCategory) {
-    //         // 카테고리 있으면 기존 id 가져오기
-    //         finalCateogoryId = searchedCategory.id;
-    //     } else {
-    //         const newCategory = await Category.create({ name: categoryName }); // 없으면 새로 생성 후 id 할당
-    //         finalCateogoryId = newCategory.id;
-    //     }
-    //     await Post.create({
-    //         title,
-    //         choice1,
-    //         choice2,
-    //         choice1Url,
-    //         choice2Url,
-    //         uploaderId,
-    //         categoryId: finalCateogoryId,
-    //     });
-    //     return res.status(201).send("게시글 업로드 성공");
-    // } catch (error) {
-    //     return res.status(500).send(`알 수 없는 에러: ${error}`);
-    // }
+    try {
+        if (!uploaderId) return res.status(401).send("Unauthorized");
+        if (!categoryName || !title || !choice1 || !choice2)
+            return res.status(400).send("잘못된 형식의 데이터입니다."); // 다른 데이터들 있는지 체크해야
+        let finalCateogoryId;
+        // 검색 후 하나 발견한 순간 정지
+        const searchedCategory = await Category.findOne({
+            where: { name: categoryName },
+        });
+        // 카테고리 있으면 기존 id 가져오기
+        if (searchedCategory) {
+            finalCateogoryId = searchedCategory.id;
+        } else {
+            const newCategory = await Category.create({ name: categoryName }); // 없으면 새로 생성 후 id 할당
+            finalCateogoryId = newCategory.id;
+        }
+        await Post.create({
+            title,
+            choice1,
+            choice2,
+            choice1Url: files.choice1Image[0].location || null,
+            choice2Url: files.choice2Image[0].location || null,
+            uploaderId,
+            categoryId: finalCateogoryId,
+        });
+        return res.status(201).send("게시글 업로드 성공");
+    } catch (error) {
+        return res.status(500).send(`알 수 없는 에러가 발생했습니다.`);
+    }
 };
 
 export const deletePost = (req, res) => {
