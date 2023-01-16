@@ -53,6 +53,10 @@ dotenv.config();
 
 ## AWS
 
--   S3: 스토리지 서비스
+### S3: 스토리지 서비스
 
--   IAM: AWS 리소스에 대한 접근 관리 => 사용자 => 기존 정책 직접 연결(ex: S3fullaccess) => ID, SECRET(이후에 확인 못함)을 .env에 기록
+-   public read 활성화하기: 퍼블릭 엑세스 차단에서 밑 2개 활성화 + (객체 소유권->ACL 활성화됨)
+
+### IAM: AWS 리소스에 대한 접근 관리
+
+-   프로젝트와 리소스 연결하기: 사용자 => 기존 정책 직접 연결(ex: S3fullaccess) => ID, SECRET(이후에 확인 못함)을 .env에 기록 후 함꼐 사용
