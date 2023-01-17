@@ -25,7 +25,7 @@ postRouter
     );
 postRouter.get("/profile/:uid", getUserPosts);
 postRouter.get("/category/:categoryId", getPostsAboutCategory);
-postRouter.route("/:id/choice").post(postChoice).delete(cancelChoice);
-postRouter.route("/:id").get(getPost).delete(deletePost);
+postRouter.route("/:postId/choice/:uid").post(postChoice).delete(cancelChoice);
+postRouter.route("/:postId").get(getPost).delete(deletePost);
 
 export default postRouter;
