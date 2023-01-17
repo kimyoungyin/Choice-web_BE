@@ -50,7 +50,7 @@ export const Choice = sequelize.define(
             allowNull: false,
         },
         choiceType: {
-            type: Sequelize.TINYINT(1), // 1 혹은 0
+            type: Sequelize.BOOLEAN, // 1 혹은 0
             allowNull: false,
         },
     },
