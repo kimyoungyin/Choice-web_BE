@@ -114,13 +114,36 @@ export const deletePost = async (req, res) => {
     }
 };
 
+export const getChoice = async (req, res) => {
+    const {
+        params: { postId, uid },
+    } = req;
+    if (!uid) return res.status(401).send("Unauthorized");
+    if (!postId)
+        return res.status(400).send("해당 게시글이 존재하지 않습니다.");
+    try {
+        const choiceTypeObj = await Choice.findOne({
+            attributes: ["choiceType"],
+            where: {
+                uid,
+                postId,
+            },
+        });
+        return res.status(200).json(choiceTypeObj);
+    } catch (error) {
+        return res.status(500).send(`알 수 없는 에러가 발생했습니다.`);
+    }
+};
+
 export const postChoice = async (req, res) => {
     const {
         params: { postId, uid },
         body: { choice },
     } = req;
-    const choiceType = Number(choice); // 꼭 숫자로 바꿔주자
     if (!uid) return res.status(401).send("Unauthorized");
+    if (choice === "")
+        return res.status(400).send("아무것도 선택하지 않았습니다.");
+    const choiceType = Number(choice); // 꼭 숫자로 바꿔주자
     if (!postId || (choiceType !== 0 && choiceType !== 1))
         return res.status(400).send("잘못된 형식의 요청입니다.");
     try {
