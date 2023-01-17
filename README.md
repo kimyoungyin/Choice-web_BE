@@ -18,6 +18,8 @@
 
 -   express.Router().route("url").get().post()...
 
+-   params로 받은 id값은 number가 아닌 string임을 유의할 것
+
 ```js
 app.use(express.urlencoded({ extended: true }));
 ```
