@@ -36,6 +36,10 @@ export const Post = sequelize.define("post", {
         type: Sequelize.STRING,
         allowNull: true,
     },
+    uploaderId: {
+        type: Sequelize.STRING(28),
+        allowNull: false,
+    },
 });
 
 export const Choice = sequelize.define(
@@ -46,7 +50,7 @@ export const Choice = sequelize.define(
             allowNull: false,
         },
         choiceType: {
-            type: Sequelize.TINYINT(1), // 1 혹은 0
+            type: Sequelize.BOOLEAN, // 1 혹은 0
             allowNull: false,
         },
     },

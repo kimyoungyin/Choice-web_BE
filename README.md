@@ -18,6 +18,8 @@
 
 -   express.Router().route("url").get().post()...
 
+-   params로 받은 id값은 number가 아닌 string임을 유의할 것
+
 ```js
 app.use(express.urlencoded({ extended: true }));
 ```
@@ -31,7 +33,7 @@ app.use(express.urlencoded({ extended: true }));
 /posts -> 모든 계시글
 /posts/
 
-# Mysql
+## Mysql
 
 -   mysql2는 mysql과 nodejs 프로젝트를 연결해주는 드라이버이다.
 
@@ -44,3 +46,19 @@ app.use(express.urlencoded({ extended: true }));
 ```js
 dotenv.config();
 ```
+
+## multer
+
+-   각각 다른 file input을 동일한 form에서 받는다면 `fields({name:string; maxCount:number;}[])` 메서드를 사용하자(하나라면 `single("name")`)
+
+-   다음 컨트롤러에서 `req.files` 혹은 `req.file`로 확인한다.
+
+## AWS
+
+### S3: 스토리지 서비스
+
+-   public read 활성화하기: 퍼블릭 엑세스 차단에서 밑 2개 활성화 + (객체 소유권->ACL 활성화됨)
+
+### IAM: AWS 리소스에 대한 접근 관리
+
+-   프로젝트와 리소스 연결하기: 사용자 => 기존 정책 직접 연결(ex: S3fullaccess) => ID, SECRET(이후에 확인 못함)을 .env에 기록 후 함꼐 사용
