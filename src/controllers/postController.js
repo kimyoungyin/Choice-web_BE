@@ -3,6 +3,21 @@ import { Category, Choice, Post } from "../models";
 export const getAllPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({
+            attributes: [
+                "categoryId",
+                "choice1",
+                "choice2",
+                "id",
+                "title",
+                "createdAt",
+            ],
+            // 왜래키로 연결된 데이터 필드 가져오기
+            include: [
+                {
+                    model: Category, // join할 모델
+                    attributes: ["name"], // select해서 표시할 필드 지정
+                },
+            ],
             order: [["createdAt", "DESC"]], // 이차원 배열로 순서 구현(내림차순)
             limit: 10, // 개수 10개로 제한
         });
