@@ -3,6 +3,7 @@ import {
     cancelChoice,
     deletePost,
     getAllPosts,
+    getChoice,
     getPost,
     getPostsAboutCategory,
     getUserPosts,
@@ -25,7 +26,11 @@ postRouter
     );
 postRouter.get("/profile/:uid", getUserPosts);
 postRouter.get("/category/:categoryId", getPostsAboutCategory);
-postRouter.route("/:postId/choice/:uid").post(postChoice).delete(cancelChoice);
+postRouter
+    .route("/:postId/choice/:uid")
+    .get(getChoice)
+    .post(postChoice)
+    .delete(cancelChoice);
 postRouter.route("/:postId").get(getPost).delete(deletePost);
 
 export default postRouter;
