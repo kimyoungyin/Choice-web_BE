@@ -49,7 +49,15 @@ export const getPost = async (req, res) => {
     const postId = req.params.postId;
     if (!postId) return res.status(400).send("잘못된 형식의 요청입니다.");
     try {
-        const post = await Post.findByPk(postId);
+        const post = await Post.findByPk(postId, {
+            // 왜래키로 연결된 데이터 필드 가져오기
+            include: [
+                {
+                    model: Choice, // join할 모델
+                    attributes: ["choiceType"], // select해서 표시할 필드 지정
+                },
+            ],
+        });
         return res.status(200).json(post);
     } catch (error) {
         return res.status(500).send(`알 수 없는 에러가 발생했습니다.`);
