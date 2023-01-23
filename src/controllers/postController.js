@@ -3,6 +3,21 @@ import { Category, Choice, Post } from "../models";
 export const getAllPosts = async (req, res) => {
     try {
         const posts = await Post.findAll({
+            attributes: [
+                "categoryId",
+                "choice1",
+                "choice2",
+                "id",
+                "title",
+                "createdAt",
+            ],
+            // 왜래키로 연결된 데이터 필드 가져오기
+            include: [
+                {
+                    model: Category, // join할 모델
+                    attributes: ["name"], // select해서 표시할 필드 지정
+                },
+            ],
             order: [["createdAt", "DESC"]], // 이차원 배열로 순서 구현(내림차순)
             limit: 10, // 개수 10개로 제한
         });
@@ -34,7 +49,15 @@ export const getPost = async (req, res) => {
     const postId = req.params.postId;
     if (!postId) return res.status(400).send("잘못된 형식의 요청입니다.");
     try {
-        const post = await Post.findByPk(postId);
+        const post = await Post.findByPk(postId, {
+            // 왜래키로 연결된 데이터 필드 가져오기
+            include: [
+                {
+                    model: Choice, // join할 모델
+                    attributes: ["choiceType"], // select해서 표시할 필드 지정
+                },
+            ],
+        });
         return res.status(200).json(post);
     } catch (error) {
         return res.status(500).send(`알 수 없는 에러가 발생했습니다.`);
@@ -66,14 +89,18 @@ export const uploadPost = async (req, res) => {
             title,
             choice1,
             choice2,
-            choice1Url: files.choice1Image[0].location || null,
-            choice2Url: files.choice2Image[0].location || null,
+            choice1Url: Array.isArray(files.choice1Image)
+                ? files.choice1Image[0].location
+                : null,
+            choice2Url: Array.isArray(files.choice1Image)
+                ? files.choice2Image[0].location
+                : null,
             uploaderId,
             categoryId: finalCateogoryId,
         });
-        console.log(result);
         return res.status(201).send("게시글 업로드 성공");
     } catch (error) {
+        console.log(error);
         return res.status(500).send(`알 수 없는 에러가 발생했습니다.`);
     }
 };
