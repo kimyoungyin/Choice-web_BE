@@ -10,7 +10,7 @@ import {
     postChoice,
     uploadPost,
 } from "../controllers/postController";
-import { uploadFiles } from "../middlewares";
+import { decodeToken, uploadFiles } from "../middlewares";
 
 const postRouter = express.Router();
 
@@ -18,19 +18,20 @@ postRouter
     .route("/")
     .get(getAllPosts)
     .post(
+        decodeToken,
         uploadFiles.fields([
             { name: "choice1Image", maxCount: 1 },
             { name: "choice2Image", maxCount: 1 },
         ]),
         uploadPost
     );
-postRouter.get("/profile/:uid", getUserPosts);
+postRouter.get("/profile", decodeToken, getUserPosts);
 postRouter.get("/category/:categoryId", getPostsAboutCategory);
 postRouter
-    .route("/:postId/choice/:uid")
-    .get(getChoice)
-    .post(postChoice)
-    .delete(cancelChoice);
-postRouter.route("/:postId").get(getPost).delete(deletePost);
+    .route("/:postId/choice")
+    .get(decodeToken, getChoice)
+    .post(decodeToken, postChoice)
+    .delete(decodeToken, cancelChoice);
+postRouter.route("/:postId").get(getPost).delete(decodeToken, deletePost);
 
 export default postRouter;

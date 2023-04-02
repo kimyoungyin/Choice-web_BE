@@ -106,12 +106,10 @@ export const uploadPost = async (req, res) => {
 };
 
 export const getUserPosts = async (req, res) => {
-    const uid = req.params.uid;
-    if (!uid) return res.status(400).send("잘못된 형식의 요청입니다.");
     try {
         const posts = await Post.findAll({
             where: {
-                uploaderId: uid,
+                uploaderId: req.uid,
             },
             order: [["createdAt", "DESC"]], // 이차원 배열로 순서 구현(내림차순)
             limit: 10, // 개수 10개로 제한
@@ -125,7 +123,9 @@ export const getUserPosts = async (req, res) => {
 export const deletePost = async (req, res) => {
     const postId = req.params.postId;
     if (!postId) return res.status(400).send("잘못된 형식의 요청입니다.");
+
     try {
+        // 내 글인지 확인 필요
         const result = await Post.destroy({
             where: {
                 id: postId,
@@ -143,9 +143,9 @@ export const deletePost = async (req, res) => {
 
 export const getChoice = async (req, res) => {
     const {
-        params: { postId, uid },
+        params: { postId },
+        uid,
     } = req;
-    if (!uid) return res.status(401).send("Unauthorized");
     if (!postId)
         return res.status(400).send("해당 게시글이 존재하지 않습니다.");
     try {
@@ -164,10 +164,10 @@ export const getChoice = async (req, res) => {
 
 export const postChoice = async (req, res) => {
     const {
-        params: { postId, uid },
+        params: { postId },
         body: { choice },
+        uid,
     } = req;
-    if (!uid) return res.status(401).send("Unauthorized");
     if (choice === "")
         return res.status(400).send("아무것도 선택하지 않았습니다.");
     const choiceType = Number(choice); // 꼭 숫자로 바꿔주자
@@ -192,9 +192,9 @@ export const postChoice = async (req, res) => {
 
 export const cancelChoice = async (req, res) => {
     const {
-        params: { postId, uid },
+        params: { postId },
+        uid,
     } = req;
-    if (!uid) return res.status(401).send("Unauthorized");
     try {
         // 1이면 삭제함, 0이면 원래 없던 것
         const result = await Choice.destroy({
